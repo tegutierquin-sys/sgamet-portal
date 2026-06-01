@@ -218,7 +218,9 @@ def mostrar_selector():
     st.markdown('<div class="portal-body">', unsafe_allow_html=True)
     st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
 
-    col1, gap, col2, _ = st.columns([1, 0.12, 1, 0.8])
+    _, inner_col, _ = st.columns([0.08, 1, 0.08])
+    with inner_col:
+     col1, gap, col2, _ = st.columns([1, 0.12, 1, 0.8])
     with col1:
         st.markdown("""
         <div class="access-card" style="--card-color: #1F3864;">

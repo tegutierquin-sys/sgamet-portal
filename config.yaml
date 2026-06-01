@@ -7,6 +7,9 @@ monograficos:
       - nombre: "1ª Edición"
         fecha: "2025"
         sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQAWHxES-VlzRJrb0je0pp2kAYMMPl0gwOu4UBVg3x1PyRE?e=KhaHGz"
+      - nombre: "En progreso - 2ª Edición"
+        fecha: "2026"
+        sharepoint_url: ""
 
   - titulo: "Satélites"
     icono: "📡"
@@ -50,19 +53,28 @@ monograficos:
         fecha: "2025"
         sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQCg_FvsTpc7TbFBA2RZzR_0AWzX7BCre8lIuSL8RPU2Qt8?e=eOVOra"
 
-  - titulo: "Next - Inteligencia Artificial"
+  - titulo: "Inteligencia Artificial"
     icono: "🤖"
     color: "#6e1a1a"
     descripcion: "Inteligencia Artificial en el sector telco: casos de uso, modelos de negocio, IA Factory y retos regulatorios en España."
     ediciones:
       - nombre: "1ª Edición"
         fecha: "2026"
-        sharepoint_url: ""
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQD5Uri6v9LgS5NV_Eb8sn8JAajsTc3sn5yg4dxblm5ii9k?e=v9cajx"
 
-  - titulo: "En progreso - Centro de Datos - Edge"
+  - titulo: "Centro de Datos"
     icono: "🗄️"
     color: "#2c3e6e"
-    descripcion: "Impacto de la IA en el sector de las telecomunicaciones: aplicaciones, infraestructura necesaria y retos regulatorios."
+    descripcion: "Análisis del mercado de centros de procesamiento de datos en España: estructura, tipología de operadores, cadena de valor, inversión, infraestructura energética y de red, y marco regulatorio."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2026"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQBjV_MAz8P2SLcb49AoE__2Aez2vcVSUM_wJSMgLPZPxBY?e=ftSHIs" 
+
+- titulo: "En progreso - Edge"
+    icono: "🔁⚡"
+    color: "#2c3e6e"
+    descripcion: "Computación en el borde de la red: arquitectura, casos de uso en telecomunicaciones, despliegue de infraestructura y evolución del mercado en España y Europa."
     ediciones:
       - nombre: "1ª Edición"
         fecha: "2026"

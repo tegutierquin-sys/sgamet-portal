@@ -226,54 +226,50 @@ div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border
 
 
 /* DETALLE MONOGRÁFICO · versión compacta
-   Evita que el título y las tarjetas de edición se estiren hasta ocupar toda la pantalla. */
+   Ajuste mínimo: título más contenido y sin efecto de bloque ancho. */
 .detalle-header {
-    padding: 24px var(--page-margin-x) 20px var(--page-margin-x) !important;
+    padding: 18px var(--page-margin-x) 18px var(--page-margin-x) !important;
 }
 .detalle-header .detalle-header-inner {
     display: block !important;
-    max-width: 980px !important;
+    max-width: 760px !important;
     margin-left: 0 !important;
     margin-right: auto !important;
 }
 .detalle-kicker {
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.66);
-    margin-bottom: 10px;
-    font-weight: 700;
+    display: none !important;
 }
 .detalle-icono-titulo {
-    display: inline-flex !important;
+    display: flex !important;
     align-items: center;
-    gap: 14px !important;
-    max-width: 780px;
+    gap: 10px !important;
+    max-width: 760px;
 }
 .detalle-icono {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.18);
-    display: flex;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px !important;
+    font-size: 24px !important;
+    line-height: 1;
 }
 .detalle-titulo {
-    font-size: 25px !important;
-    line-height: 1.1 !important;
+    font-size: 22px !important;
+    line-height: 1.18 !important;
+    font-weight: 700 !important;
     max-width: 680px;
 }
 .detalle-desc {
-    margin-top: 12px !important;
-    margin-left: 58px;
-    max-width: 760px !important;
-    font-size: 12.5px !important;
-    color: rgba(255,255,255,0.68) !important;
+    margin-top: 8px !important;
+    margin-left: 34px;
+    max-width: 680px !important;
+    font-size: 12px !important;
+    color: rgba(255,255,255,0.66) !important;
 }
 .seccion-titulo-detalle {
     max-width: 980px;
@@ -373,7 +369,7 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
                 <div class="portal-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</div>
             </div>
         </div>
-        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:82px;width:auto;object-fit:contain;flex-shrink:0;" />
+        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:72px;width:auto;object-fit:contain;flex-shrink:0;" />
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -534,14 +530,14 @@ def mostrar_operadoras():
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_v, col_c, _ = st.columns([2, 2, 5])
-        with col_v:
-            if st.button("← Portal", key="portal_op"):
+        col_c, col_v, _ = st.columns([2, 2, 5])
+        with col_c:
+            if st.button("🔒 Cerrar sesión", key="cerrar_op"):
+                st.session_state.autenticado = False
                 st.session_state.seccion = "selector"
                 st.rerun()
-        with col_c:
-            if st.button("Cerrar sesión", key="cerrar_op"):
-                st.session_state.autenticado = False
+        with col_v:
+            if st.button("← Portal", key="portal_op"):
                 st.session_state.seccion = "selector"
                 st.rerun()
 

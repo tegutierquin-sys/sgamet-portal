@@ -147,15 +147,16 @@ section.main > div { padding-left: 0 !important; padding-right: 0 !important; pa
 .nota-confidencial-inline { font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 8px; padding-left: 4px; font-style: italic; }
 
 /* OPERADORAS */
-.tarjeta-op { background: white; border-radius: 12px; padding: 40px 48px; max-width: 480px; margin: 40px auto; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
-.titulo-op { font-size: 1.3rem; font-weight: 700; color: #003366; text-align: center; line-height: 1.4; margin-bottom: 4px; }
-.subtitulo-op { font-size: 1rem; color: #005A9C; text-align: center; font-weight: 600; margin-bottom: 24px; }
-.separador-op { border: none; border-top: 2px solid #F2C811; margin: 16px 0 24px 0; }
-.label-acceso { font-size: 0.85rem; color: #666; margin-bottom: 8px; text-align: center; }
-.pie-op { text-align: center; font-size: 0.75rem; color: #999; margin-top: 24px; }
-.btn-dashboard { display: inline-block; background-color: #F2C811; color: #003366 !important; font-weight: 700; font-size: 1.05rem; padding: 14px 32px; border-radius: 8px; text-decoration: none; margin-top: 16px; }
-.btn-dashboard:hover { background-color: #e0b800; }
-
+.tarjeta-op { background:white; border-radius:12px; padding:40px 48px; max-width:480px; margin:40px auto; box-shadow:0 8px 32px rgba(0,0,0,0.25); }
+.tarjeta-op-sin-logo { padding:34px 48px 36px 48px !important; margin-top:56px !important; }
+.titulo-op { font-size:1.3rem; font-weight:700; color:#003366; text-align:center; line-height:1.4; margin-bottom:4px; }
+.subtitulo-op { font-size:1rem; color:#005A9C; text-align:center; font-weight:600; margin-bottom:24px; }
+.separador-op { border:none; border-top:2px solid #F2C811; margin:16px 0 24px 0; }
+.label-acceso { font-size:0.85rem; color:#666; margin-bottom:8px; text-align:center; }
+.pie-op { text-align:center; font-size:0.75rem; color:#999; margin-top:24px; }
+.btn-dashboard { display:inline-block; background-color:#F2C811; color:#003366 !important; font-weight:700; font-size:1.05rem; padding:14px 32px; border-radius:8px; text-decoration:none; margin-top:16px; }
+.btn-dashboard:hover { background-color:#e0b800; }
+                      
 /* Streamlit overrides */
 div[data-testid="stTextInput"] input {
     background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.15) !important;
@@ -546,16 +547,12 @@ def mostrar_operadoras():
     <div class="tarjeta-op tarjeta-op-sin-logo">
         <p class="titulo-op">Cuadro de Mando · Operadoras y empresas analizadas</p>
         <p class="subtitulo-op">Principales magnitudes</p>
-        <p class="label-acceso">Acceso verificado. Haz clic para abrir el dashboard.</p>
-        <div style="text-align:center;">
-            <a href="{ENLACE_POWERBI}" target="_blank" class="btn-dashboard">📊 Abrir dashboard</a>
-        </div>
+        <p class="label-acceso">Acceso verificado. Haz clic para abrir el cuadro de mando.</p>
+        <div style="text-align:center;"><a href="{ENLACE_POWERBI}" target="_blank" class="btn-dashboard">📊 Abrir cuadro de mando</a></div>
         <p class="pie-op">S.G. de Análisis del Mercado y Evolución Tecnológica</p>
     </div>
     """, unsafe_allow_html=True)
     
-
-
 # =============================================================
 # ENRUTADOR
 # =============================================================

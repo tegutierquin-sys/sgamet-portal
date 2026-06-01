@@ -87,7 +87,7 @@ section.main > div { padding-left: 0 !important; padding-right: 0 !important; pa
 .access-icono { font-size: 44px; margin-bottom: 16px; display: block; }
 .access-titulo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: #0d1b2a; margin-bottom: 10px; }
 .access-desc { font-size: 13.5px; color: #666; line-height: 1.6; margin-bottom: 24px; }
-.access-cta { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--card-color, #2E74B5); border-bottom: 2px solid var(--card-color, #2E74B5); padding-bottom: 2px; }
+.access-cta { display: none; }
 .seccion-titulo { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
 
 /* TARJETAS MONOGRÁFICOS */
@@ -217,14 +217,13 @@ def mostrar_selector():
     st.markdown('<div class="portal-body">', unsafe_allow_html=True)
     st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1, 1, 0.5])
+    col1, gap, col2, _ = st.columns([1, 0.12, 1, 0.8])
     with col1:
         st.markdown("""
         <div class="access-card" style="--card-color: #1F3864;">
             <span class="access-icono">📚</span>
             <p class="access-titulo">Biblioteca de Monográficos</p>
             <p class="access-desc">Colección de estudios sectoriales sobre telecomunicaciones e infraestructuras digitales en España: fondos de inversión, satélites, cable submarino, torreros, fibercos, centros de datos e inteligencia artificial.</p>
-            <span class="access-cta">Acceder →</span>
         </div>
         """, unsafe_allow_html=True)
         if st.button("📚 Ir a Monográficos", key="btn_mono"):
@@ -237,7 +236,6 @@ def mostrar_selector():
             <span class="access-icono">📊</span>
             <p class="access-titulo">Cuadro de Mando · Operadoras</p>
             <p class="access-desc">Dashboard interactivo con las principales magnitudes económicas y de mercado de las operadoras de telecomunicaciones en España.</p>
-            <span class="access-cta">Acceder →</span>
         </div>
         """, unsafe_allow_html=True)
         if st.button("📊 Ir a Operadoras", key="btn_oper"):

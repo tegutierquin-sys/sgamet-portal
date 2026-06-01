@@ -71,7 +71,7 @@ monograficos:
         fecha: "2026"
         sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQBjV_MAz8P2SLcb49AoE__2Aez2vcVSUM_wJSMgLPZPxBY?e=ftSHIs" 
 
-- titulo: "En progreso - Edge"
+  - titulo: "En progreso - Edge"
     icono: "🔁⚡"
     color: "#2c3e6e"
     descripcion: "Computación en el borde de la red: arquitectura, casos de uso en telecomunicaciones, despliegue de infraestructura y evolución del mercado en España y Europa."

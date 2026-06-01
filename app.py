@@ -543,18 +543,17 @@ def mostrar_operadoras():
                 st.rerun()
 
     st.markdown(f"""
-    <div class="tarjeta-op">
-        <div class="logo-container"><img src="data:image/jpeg;base64,{LOGO_B64}" width="320" /></div>
-        <hr class="separador-op"/>
-        <p class="titulo-op">Cuadro de Mando · Operadoras</p>
-        <p class="subtitulo-op">Principales Magnitudes</p>
+    <div class="tarjeta-op tarjeta-op-sin-logo">
+        <p class="titulo-op">Cuadro de Mando · Operadoras y empresas analizadas</p>
+        <p class="subtitulo-op">Principales magnitudes</p>
         <p class="label-acceso">Acceso verificado. Haz clic para abrir el dashboard.</p>
         <div style="text-align:center;">
-            <a href="{ENLACE_POWERBI}" target="_blank" class="btn-dashboard">📊 Abrir Dashboard</a>
+            <a href="{ENLACE_POWERBI}" target="_blank" class="btn-dashboard">📊 Abrir dashboard</a>
         </div>
         <p class="pie-op">S.G. de Análisis del Mercado y Evolución Tecnológica</p>
     </div>
     """, unsafe_allow_html=True)
+    
 
 
 # =============================================================

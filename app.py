@@ -224,6 +224,101 @@ div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border
     }
 }
 
+
+/* DETALLE MONOGRÁFICO · versión compacta
+   Evita que el título y las tarjetas de edición se estiren hasta ocupar toda la pantalla. */
+.detalle-header {
+    padding: 24px var(--page-margin-x) 20px var(--page-margin-x) !important;
+}
+.detalle-header .detalle-header-inner {
+    display: block !important;
+    max-width: 980px !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+.detalle-kicker {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.66);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.detalle-icono-titulo {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 14px !important;
+    max-width: 780px;
+}
+.detalle-icono {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px !important;
+}
+.detalle-titulo {
+    font-size: 25px !important;
+    line-height: 1.1 !important;
+    max-width: 680px;
+}
+.detalle-desc {
+    margin-top: 12px !important;
+    margin-left: 58px;
+    max-width: 760px !important;
+    font-size: 12.5px !important;
+    color: rgba(255,255,255,0.68) !important;
+}
+.seccion-titulo-detalle {
+    max-width: 980px;
+    margin-top: 0 !important;
+}
+.edicion-card {
+    max-width: 980px;
+    min-height: 92px;
+    padding: 18px 24px !important;
+    margin-bottom: 14px !important;
+}
+.edicion-card-left {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.edicion-card-actions {
+    flex: 0 0 180px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.edicion-numero {
+    font-size: 24px !important;
+    min-width: 38px !important;
+}
+.edicion-info-nombre {
+    font-size: 17px !important;
+}
+.edicion-info-fecha {
+    font-size: 13px !important;
+}
+@media (max-width: 900px) {
+    .detalle-desc {
+        margin-left: 0 !important;
+    }
+    .edicion-card {
+        max-width: 100%;
+    }
+    .edicion-card-actions {
+        flex: 1 1 100%;
+        justify-content: flex-start;
+        margin-top: 12px;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -263,16 +358,6 @@ def columnas_contenido():
     return st.columns(MARGEN_PAGINA, gap="small")
 
 
-# Columnas estándar para los botones de navegación.
-# Un botón ocupa 2/9 del ancho disponible; dos botones mantienen ese mismo ancho cada uno.
-def columnas_accion_un_boton():
-    return st.columns([2, 7], gap="small")
-
-
-def columnas_accion_dos_botones():
-    return st.columns([2, 2, 5], gap="small")
-
-
 # =============================================================
 # CABECERA COMÚN (visible tras login)
 # =============================================================
@@ -302,7 +387,7 @@ def mostrar_selector():
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_cerrar, _ = columnas_accion_un_boton()
+        col_cerrar, _ = st.columns([2, 7])
         with col_cerrar:
             if st.button("🔒 Cerrar sesión", key="cerrar_sel"):
                 st.session_state.autenticado = False
@@ -346,7 +431,7 @@ def mostrar_monograficos():
     if st.session_state.vista_mono == "catalogo":
         _margen_izq, area, _margen_der = columnas_contenido()
         with area:
-            col_c1, col_c2, _ = columnas_accion_dos_botones()
+            col_c1, col_c2, _ = st.columns([2, 2, 5])
             with col_c1:
                 if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
                     st.session_state.autenticado = False
@@ -395,6 +480,7 @@ def mostrar_monograficos():
         st.markdown(f"""
         <div class="detalle-header">
           <div class="detalle-header-inner">
+            <div class="detalle-kicker">Monográfico</div>
             <div class="detalle-icono-titulo">
                 <span class="detalle-icono">{mono['icono']}</span>
                 <div><div class="detalle-titulo">{mono['titulo']}</div></div>
@@ -406,14 +492,14 @@ def mostrar_monograficos():
 
         _margen_izq, area, _margen_der = columnas_contenido()
         with area:
-            col_b, _ = columnas_accion_un_boton()
+            col_b, _ = st.columns([2, 7])
             with col_b:
                 if st.button("← Volver al catálogo", key="btn_back_detalle"):
                     st.session_state.vista_mono = "catalogo"
                     st.rerun()
 
             st.markdown('<div class="espacio-acciones-seccion"></div>', unsafe_allow_html=True)
-            st.markdown('<div class="seccion-titulo">Ediciones disponibles</div>', unsafe_allow_html=True)
+            st.markdown('<div class="seccion-titulo seccion-titulo-detalle">Ediciones disponibles</div>', unsafe_allow_html=True)
             total = len(mono["ediciones"])
             for j, ed in enumerate(reversed(mono["ediciones"])):
                 es_ultima = (j == 0)
@@ -433,7 +519,7 @@ def mostrar_monograficos():
                     '<div class="edicion-info-nombre">' + ed['nombre'] + ' ' + latest_badge + '</div>'
                     '<div class="edicion-info-fecha">Publicado en ' + ed['fecha'] + '</div>'
                     '</div></div>'
-                    '<div>' + botones_html + '</div>'
+                    '<div class="edicion-card-actions">' + botones_html + '</div>'
                     + extra_section +
                     '</div>'
                 )
@@ -448,7 +534,7 @@ def mostrar_operadoras():
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_v, col_c, _ = columnas_accion_dos_botones()
+        col_v, col_c, _ = st.columns([2, 2, 5])
         with col_v:
             if st.button("← Portal", key="portal_op"):
                 st.session_state.seccion = "selector"

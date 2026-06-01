@@ -188,6 +188,7 @@ if not st.session_state.autenticado:
 def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
     st.markdown(f"""
     <div class="portal-header">
+      <div class="portal-header-inner">
         <div class="portal-header-left">
             <div class="portal-header-logo"><img src="data:image/jpeg;base64,{LOGO_B64}" /></div>
             <div class="portal-header-text">

@@ -188,6 +188,7 @@ if not st.session_state.autenticado:
 def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
     st.markdown(f"""
     <div class="portal-header">
+      <div class="portal-header-inner">
         <div class="portal-header-left">
             <div class="portal-header-logo"><img src="data:image/jpeg;base64,{LOGO_B64}" /></div>
             <div class="portal-header-text">
@@ -196,7 +197,8 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
                 <div class="portal-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</div>
             </div>
         </div>
-        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:48px;width:auto;object-fit:contain;flex-shrink:0;" />
+        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:72px;width:auto;object-fit:contain;flex-shrink:0;" />
+      </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -214,7 +216,7 @@ def mostrar_selector():
             st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('<div class="portal-body">', unsafe_allow_html=True)
+    st.markdown('<div class="portal-body"><div class="content-wrapper">', unsafe_allow_html=True)
     st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
 
     _, inner_col, _ = st.columns([0.08, 1, 0.08])
@@ -244,7 +246,7 @@ def mostrar_selector():
             st.session_state.seccion = "operadoras"
             st.rerun()
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div></div>', unsafe_allow_html=True)
 
 
 # =============================================================
@@ -269,7 +271,7 @@ def mostrar_monograficos():
     st.markdown('</div>', unsafe_allow_html=True)
 
     if st.session_state.vista_mono == "catalogo":
-        st.markdown('<div class="portal-body"><div class="contenido-interior">', unsafe_allow_html=True)
+        st.markdown('<div class="portal-body"><div class="content-wrapper">', unsafe_allow_html=True)
         st.markdown('<div class="seccion-titulo">Monográficos disponibles</div>', unsafe_allow_html=True)
         cols = st.columns(3, gap="large")
         for i, mono in enumerate(monograficos):
@@ -311,7 +313,7 @@ def mostrar_monograficos():
             if st.button("← Volver al catálogo", key="btn_back_detalle"):
                 st.session_state.vista_mono = "catalogo"
                 st.rerun()
-        st.markdown('<div class="detalle-body"><div class="contenido-interior">', unsafe_allow_html=True)
+        st.markdown('<div class="detalle-body"><div class="content-wrapper">', unsafe_allow_html=True)
         st.markdown('<div class="seccion-titulo">Ediciones disponibles</div>', unsafe_allow_html=True)
         total = len(mono["ediciones"])
         for j, ed in enumerate(reversed(mono["ediciones"])):

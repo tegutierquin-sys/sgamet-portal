@@ -152,19 +152,23 @@ div[data-testid="stButton"] button:hover { background: #004080 !important; }
 div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border: 1px solid rgba(220,50,50,0.3) !important; border-radius: 10px !important; color: #ff8080 !important; }
 
 /* LAYOUT CENTRADO COMÚN
-   Esta capa no depende de abrir/cerrar divs alrededor de elementos de Streamlit.
-   El centrado real de columnas se hace también con st.columns simétricas en cada vista. */
+   Unificamos el margen visual de cabecera, botones y contenido.
+   En pantallas anchas usa un margen lateral pequeño, como el de la primera columna. */
+:root {
+    --page-margin-x: clamp(28px, 2.2vw, 44px);
+}
 .portal-header {
     margin: 0 !important;
-    padding: 28px 0 !important;
+    padding: 28px var(--page-margin-x) !important;
 }
 .portal-header-inner,
 .detalle-header-inner,
 .page-content,
 .content-wrapper {
-    width: min(1180px, calc(100vw - 96px));
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 .portal-header-inner {
     display: flex;
@@ -173,26 +177,28 @@ div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border
     gap: 32px;
 }
 .detalle-header {
-    padding: 16px 0 !important;
+    padding: 16px var(--page-margin-x) !important;
 }
 .portal-body,
 .detalle-body {
-    padding: 32px 0 48px 0 !important;
+    padding: 0 !important;
+}
+.nota-confidencial-inline {
+    margin-top: -10px !important;
+    margin-bottom: 10px !important;
+    padding-left: 4px !important;
+}
+.seccion-titulo {
+    margin-top: 0 !important;
+}
+.espacio-acciones-seccion {
+    height: 18px;
 }
 @media (max-width: 900px) {
-    .portal-header-inner,
-    .detalle-header-inner,
-    .page-content,
-    .content-wrapper {
-        width: min(100% - 32px, 1180px);
-    }
+    :root { --page-margin-x: 18px; }
     .portal-header-inner {
         flex-direction: column;
         align-items: flex-start;
-    }
-    .portal-body,
-    .detalle-body {
-        padding: 24px 0 36px 0 !important;
     }
 }
 
@@ -227,6 +233,13 @@ if not st.session_state.autenticado:
     st.markdown('<p class="login-pie">S.G. de Análisis del Mercado y Evolución Tecnológica · SETELECO · 2026</p>', unsafe_allow_html=True)
     st.stop()
 
+# Márgenes invisibles comunes para el cuerpo.
+# Mantienen el mismo arranque visual que la cabecera.
+MARGEN_PAGINA = [0.022, 1, 0.022]
+
+def columnas_contenido():
+    return st.columns(MARGEN_PAGINA, gap="small")
+
 
 # =============================================================
 # CABECERA COMÚN (visible tras login)
@@ -255,8 +268,7 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
 def mostrar_selector():
     mostrar_cabecera()
 
-    # Barra superior de acciones, con el mismo ancho visual que el contenido.
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    _margen_izq, area, _margen_der = columnas_contenido()
     with area:
         col_cerrar, _ = st.columns([1, 8])
         with col_cerrar:
@@ -264,11 +276,7 @@ def mostrar_selector():
                 st.session_state.autenticado = False
                 st.rerun()
 
-    st.markdown('<div class="portal-body">', unsafe_allow_html=True)
-
-    # Márgenes invisibles simétricos. Así el centrado no depende del HTML inyectado.
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
-    with area:
+        st.markdown('<div class="espacio-acciones-seccion"></div>', unsafe_allow_html=True)
         st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
         col1, gap, col2 = st.columns([1, 0.12, 1], gap="large")
 
@@ -296,8 +304,6 @@ def mostrar_selector():
                 st.session_state.seccion = "operadoras"
                 st.rerun()
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
 
 # =============================================================
 # 3. MONOGRÁFICOS
@@ -305,27 +311,25 @@ def mostrar_selector():
 def mostrar_monograficos():
     mostrar_cabecera("Biblioteca de Monográficos")
 
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
-    with area:
-        col_c1, col_c2, _ = st.columns([1, 1, 6])
-        with col_c1:
-            if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
-                st.session_state.autenticado = False
-                st.session_state.seccion = "selector"
-                st.session_state.vista_mono = "catalogo"
-                st.rerun()
-        with col_c2:
-            if st.button("← Portal", key="portal_mono"):
-                st.session_state.seccion = "selector"
-                st.session_state.vista_mono = "catalogo"
-                st.rerun()
-        st.markdown('<div class="nota-confidencial-inline">🔐 Uso interno · Consulta con SGAMET antes de compartir</div>', unsafe_allow_html=True)
-
     if st.session_state.vista_mono == "catalogo":
-        st.markdown('<div class="portal-body">', unsafe_allow_html=True)
-        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        _margen_izq, area, _margen_der = columnas_contenido()
         with area:
+            col_c1, col_c2, _ = st.columns([1, 1, 10])
+            with col_c1:
+                if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
+                    st.session_state.autenticado = False
+                    st.session_state.seccion = "selector"
+                    st.session_state.vista_mono = "catalogo"
+                    st.rerun()
+            with col_c2:
+                if st.button("← Portal", key="portal_mono"):
+                    st.session_state.seccion = "selector"
+                    st.session_state.vista_mono = "catalogo"
+                    st.rerun()
+
+            st.markdown('<div class="nota-confidencial-inline">🔐 Uso interno · Consulta con SGAMET antes de compartir</div>', unsafe_allow_html=True)
             st.markdown('<div class="seccion-titulo">Monográficos disponibles</div>', unsafe_allow_html=True)
+
             cols = st.columns(3, gap="large")
             for i, mono in enumerate(monograficos):
                 with cols[i % 3]:
@@ -347,7 +351,6 @@ def mostrar_monograficos():
                         st.session_state.mono_seleccionado = i
                         st.session_state.vista_mono = "detalle"
                         st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
 
     elif st.session_state.vista_mono == "detalle":
         mono = monograficos[st.session_state.mono_seleccionado]
@@ -363,17 +366,15 @@ def mostrar_monograficos():
         </div>
         """, unsafe_allow_html=True)
 
-        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        _margen_izq, area, _margen_der = columnas_contenido()
         with area:
-            col_b, _ = st.columns([1, 5])
+            col_b, _ = st.columns([1, 10])
             with col_b:
                 if st.button("← Volver al catálogo", key="btn_back_detalle"):
                     st.session_state.vista_mono = "catalogo"
                     st.rerun()
 
-        st.markdown('<div class="detalle-body">', unsafe_allow_html=True)
-        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
-        with area:
+            st.markdown('<div class="espacio-acciones-seccion"></div>', unsafe_allow_html=True)
             st.markdown('<div class="seccion-titulo">Ediciones disponibles</div>', unsafe_allow_html=True)
             total = len(mono["ediciones"])
             for j, ed in enumerate(reversed(mono["ediciones"])):
@@ -399,7 +400,6 @@ def mostrar_monograficos():
                     '</div>'
                 )
                 st.markdown(card_html, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # =============================================================
@@ -408,9 +408,9 @@ def mostrar_monograficos():
 def mostrar_operadoras():
     mostrar_cabecera("Cuadro de Mando · Operadoras")
 
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_v, col_c, _ = st.columns([1, 1, 6])
+        col_v, col_c, _ = st.columns([1, 1, 10])
         with col_v:
             if st.button("← Portal", key="portal_op"):
                 st.session_state.seccion = "selector"

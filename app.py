@@ -411,14 +411,13 @@ def mostrar_selector():
             st.markdown("""
             <div class="access-card" style="--card-color: #375623;">
                 <span class="access-icono">📊</span>
-                <p class="access-titulo">Cuadro de Mando · Operadoras</p>
-                <p class="access-desc">Dashboard interactivo con las principales magnitudes económicas y de mercado de las operadoras de telecomunicaciones en España.</p>
+                <p class="access-titulo">Cuadro de Mando · Operadoras y empresas analizadas</p>
+                <p class="access-desc">Dashboard interactivo con las principales magnitudes económicas y de mercado de las operadoras de telecomunicaciones y otras empresas analizadas.</p>
             </div>
             """, unsafe_allow_html=True)
-            if st.button("📊 Ir a Operadoras", key="btn_oper"):
+            if st.button("📊 Ir al Power BI", key="btn_oper"):
                 st.session_state.seccion = "operadoras"
                 st.rerun()
-
 
 # =============================================================
 # 3. MONOGRÁFICOS

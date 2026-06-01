@@ -292,7 +292,7 @@ def mostrar_selector():
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_cerrar, _ = st.columns([0.4, 7])
+        col_cerrar, _ = st.columns([2, 7])
         with col_cerrar:
             if st.button("🔒 Cerrar sesión", key="cerrar_sel"):
                 st.session_state.autenticado = False

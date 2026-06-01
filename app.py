@@ -263,6 +263,16 @@ def columnas_contenido():
     return st.columns(MARGEN_PAGINA, gap="small")
 
 
+# Columnas estándar para los botones de navegación.
+# Un botón ocupa 2/9 del ancho disponible; dos botones mantienen ese mismo ancho cada uno.
+def columnas_accion_un_boton():
+    return st.columns([2, 7], gap="small")
+
+
+def columnas_accion_dos_botones():
+    return st.columns([2, 2, 5], gap="small")
+
+
 # =============================================================
 # CABECERA COMÚN (visible tras login)
 # =============================================================
@@ -292,7 +302,7 @@ def mostrar_selector():
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_cerrar, _ = st.columns([2, 7])
+        col_cerrar, _ = columnas_accion_un_boton()
         with col_cerrar:
             if st.button("🔒 Cerrar sesión", key="cerrar_sel"):
                 st.session_state.autenticado = False
@@ -336,7 +346,7 @@ def mostrar_monograficos():
     if st.session_state.vista_mono == "catalogo":
         _margen_izq, area, _margen_der = columnas_contenido()
         with area:
-            col_c1, col_c2, _ = st.columns([1, 1, 10])
+            col_c1, col_c2, _ = columnas_accion_dos_botones()
             with col_c1:
                 if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
                     st.session_state.autenticado = False
@@ -396,7 +406,7 @@ def mostrar_monograficos():
 
         _margen_izq, area, _margen_der = columnas_contenido()
         with area:
-            col_b, _ = st.columns([1, 10])
+            col_b, _ = columnas_accion_un_boton()
             with col_b:
                 if st.button("← Volver al catálogo", key="btn_back_detalle"):
                     st.session_state.vista_mono = "catalogo"
@@ -438,7 +448,7 @@ def mostrar_operadoras():
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_v, col_c, _ = st.columns([1, 1, 10])
+        col_v, col_c, _ = columnas_accion_dos_botones()
         with col_v:
             if st.button("← Portal", key="portal_op"):
                 st.session_state.seccion = "selector"

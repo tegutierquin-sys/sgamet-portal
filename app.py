@@ -527,7 +527,7 @@ def mostrar_monograficos():
 # 4. OPERADORAS
 # =============================================================
 def mostrar_operadoras():
-    mostrar_cabecera("Cuadro de Mando · Operadoras")
+    mostrar_cabecera("Cuadro de Mando · Operadoras y empresas analizadas")
 
     _margen_izq, area, _margen_der = columnas_contenido()
     with area:

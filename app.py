@@ -71,9 +71,9 @@ section.main > div { padding-left: 0 !important; padding-right: 0 !important; pa
 .portal-header-left { display: flex; align-items: center; gap: 24px; }
 .portal-header-logo img { height: 56px; display: block; }
 .portal-header-text { display: flex; flex-direction: column; }
-.portal-ministerio-label { font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 4px; text-align: left; }
-.portal-titulo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #ffffff; text-align: left; }
-.portal-subtitulo { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 300; margin-top: 1px; text-align: left; }
+.portal-ministerio-label { font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 4px; }
+.portal-titulo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #ffffff; }
+.portal-subtitulo { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 300; margin-top: 1px; }
 .portal-body { padding: 32px 60px 48px 80px; }
 
 /* TARJETAS SELECTOR */
@@ -91,15 +91,35 @@ section.main > div { padding-left: 0 !important; padding-right: 0 !important; pa
 .seccion-titulo { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
 
 /* TARJETAS MONOGRÁFICOS */
-.card-mono { background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e8e4df; transition: all 0.3s ease; height: 100%; position: relative; overflow: hidden; display: flex; flex-direction: column; }
-.card-desc { flex: 1; }
-.card-wrapper { display: flex; flex-direction: column; height: 100%; }
+.card-mono {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e8e4df;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    /* Altura común para que todas las fichas queden alineadas. */
+    min-height: 252px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 .card-mono::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--card-color, #005aa0); }
 .card-mono:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); border-color: var(--card-color, #005aa0); }
 .card-icono { font-size: 28px; margin-bottom: 10px; display: block; }
-.card-titulo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #0d1b2a; margin-bottom: 6px; }
-.card-desc { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 12px; font-weight: 400; }
+.card-titulo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #0d1b2a; margin-bottom: 8px; }
+.card-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    font-weight: 400;
+    min-height: 72px;
+}
 .card-ediciones-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
+.card-badges { min-height: 36px; }
 .badge-edicion { display: inline-block; background: #f4f1ec; border: 1px solid #e0dbd4; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 500; color: #555; margin-right: 6px; margin-bottom: 6px; }
 .badge-edicion-latest { background: var(--card-color, #005aa0); color: white; border-color: var(--card-color, #005aa0); }
 
@@ -107,8 +127,8 @@ section.main > div { padding-left: 0 !important; padding-right: 0 !important; pa
 .detalle-header { background: linear-gradient(160deg, #003366 0%, #005A9C 60%, #F2C811 100%); padding: 16px 48px; border-bottom: 3px solid #F2C811; }
 .detalle-icono-titulo { display: flex; align-items: center; gap: 20px; }
 .detalle-icono { font-size: 36px; }
-.detalle-titulo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: white; text-align: left; }
-.detalle-desc { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 6px; font-weight: 300; max-width: 600px; line-height: 1.5; text-align: left; }
+.detalle-titulo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: white; }
+.detalle-desc { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 6px; font-weight: 300; max-width: 600px; line-height: 1.5; }
 .detalle-body { padding: 32px 60px 48px 80px; }
 .edicion-card { background: white; border-radius: 16px; padding: 20px 32px; border: 1px solid #e8e4df; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s ease; flex-wrap: wrap; }
 .edicion-card:hover { border-color: #005aa0; box-shadow: 0 8px 30px rgba(0,90,160,0.08); }
@@ -154,19 +174,23 @@ div[data-testid="stButton"] button:hover { background: #004080 !important; }
 div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border: 1px solid rgba(220,50,50,0.3) !important; border-radius: 10px !important; color: #ff8080 !important; }
 
 /* LAYOUT CENTRADO COMÚN
-   Esta capa no depende de abrir/cerrar divs alrededor de elementos de Streamlit.
-   El centrado real de columnas se hace también con st.columns simétricas en cada vista. */
+   Unificamos el margen visual de cabecera, botones y contenido.
+   En pantallas anchas usa un margen lateral pequeño, como el de la primera columna. */
+:root {
+    --page-margin-x: clamp(28px, 2.2vw, 44px);
+}
 .portal-header {
     margin: 0 !important;
-    padding: 28px 0 !important;
+    padding: 28px var(--page-margin-x) !important;
 }
 .portal-header-inner,
 .detalle-header-inner,
 .page-content,
 .content-wrapper {
-    width: min(1180px, calc(100vw - 96px));
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 .portal-header-inner {
     display: flex;
@@ -175,26 +199,28 @@ div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border
     gap: 32px;
 }
 .detalle-header {
-    padding: 16px 0 !important;
+    padding: 16px var(--page-margin-x) !important;
 }
 .portal-body,
 .detalle-body {
-    padding: 32px 0 48px 0 !important;
+    padding: 0 !important;
+}
+.nota-confidencial-inline {
+    margin-top: -10px !important;
+    margin-bottom: 10px !important;
+    padding-left: 4px !important;
+}
+.seccion-titulo {
+    margin-top: 0 !important;
+}
+.espacio-acciones-seccion {
+    height: 18px;
 }
 @media (max-width: 900px) {
-    .portal-header-inner,
-    .detalle-header-inner,
-    .page-content,
-    .content-wrapper {
-        width: min(100% - 32px, 1180px);
-    }
+    :root { --page-margin-x: 18px; }
     .portal-header-inner {
         flex-direction: column;
         align-items: flex-start;
-    }
-    .portal-body,
-    .detalle-body {
-        padding: 24px 0 36px 0 !important;
     }
 }
 
@@ -229,6 +255,13 @@ if not st.session_state.autenticado:
     st.markdown('<p class="login-pie">S.G. de Análisis del Mercado y Evolución Tecnológica · SETELECO · 2026</p>', unsafe_allow_html=True)
     st.stop()
 
+# Márgenes invisibles comunes para el cuerpo.
+# Mantienen el mismo arranque visual que la cabecera.
+MARGEN_PAGINA = [0.022, 1, 0.022]
+
+def columnas_contenido():
+    return st.columns(MARGEN_PAGINA, gap="small")
+
 
 # =============================================================
 # CABECERA COMÚN (visible tras login)
@@ -257,8 +290,7 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
 def mostrar_selector():
     mostrar_cabecera()
 
-    # Barra superior de acciones, con el mismo ancho visual que el contenido.
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    _margen_izq, area, _margen_der = columnas_contenido()
     with area:
         col_cerrar, _ = st.columns([1, 8])
         with col_cerrar:
@@ -266,11 +298,7 @@ def mostrar_selector():
                 st.session_state.autenticado = False
                 st.rerun()
 
-    st.markdown('<div class="portal-body">', unsafe_allow_html=True)
-
-    # Márgenes invisibles simétricos. Así el centrado no depende del HTML inyectado.
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
-    with area:
+        st.markdown('<div class="espacio-acciones-seccion"></div>', unsafe_allow_html=True)
         st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
         col1, gap, col2 = st.columns([1, 0.12, 1], gap="large")
 
@@ -298,8 +326,6 @@ def mostrar_selector():
                 st.session_state.seccion = "operadoras"
                 st.rerun()
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
 
 # =============================================================
 # 3. MONOGRÁFICOS
@@ -307,49 +333,52 @@ def mostrar_selector():
 def mostrar_monograficos():
     mostrar_cabecera("Biblioteca de Monográficos")
 
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
-    with area:
-        col_c1, col_c2, _ = st.columns([1, 1, 6])
-        with col_c1:
-            if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
-                st.session_state.autenticado = False
-                st.session_state.seccion = "selector"
-                st.session_state.vista_mono = "catalogo"
-                st.rerun()
-        with col_c2:
-            if st.button("← Portal", key="portal_mono"):
-                st.session_state.seccion = "selector"
-                st.session_state.vista_mono = "catalogo"
-                st.rerun()
-        st.markdown('<div class="nota-confidencial-inline">🔐 Uso interno · Consulta con SGAMET antes de compartir</div>', unsafe_allow_html=True)
-
     if st.session_state.vista_mono == "catalogo":
-        st.markdown('<div class="portal-body">', unsafe_allow_html=True)
-        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        _margen_izq, area, _margen_der = columnas_contenido()
         with area:
+            col_c1, col_c2, _ = st.columns([1, 1, 10])
+            with col_c1:
+                if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
+                    st.session_state.autenticado = False
+                    st.session_state.seccion = "selector"
+                    st.session_state.vista_mono = "catalogo"
+                    st.rerun()
+            with col_c2:
+                if st.button("← Portal", key="portal_mono"):
+                    st.session_state.seccion = "selector"
+                    st.session_state.vista_mono = "catalogo"
+                    st.rerun()
+
+            st.markdown('<div class="nota-confidencial-inline">🔐 Uso interno · Consulta con SGAMET antes de compartir</div>', unsafe_allow_html=True)
             st.markdown('<div class="seccion-titulo">Monográficos disponibles</div>', unsafe_allow_html=True)
-            cols = st.columns(3, gap="large")
-            for i, mono in enumerate(monograficos):
-                with cols[i % 3]:
-                    n_ediciones = len(mono["ediciones"])
-                    badges_html = ""
-                    for j, ed in enumerate(mono["ediciones"]):
-                        clase = "badge-edicion-latest" if j == len(mono["ediciones"]) - 1 else ""
-                        badges_html += f'<span class="badge-edicion {clase}" style="--card-color:{mono["color"]}">{ed["nombre"]} · {ed["fecha"]}</span>'
-                    st.markdown(f"""
-                    <div class="card-mono" style="--card-color:{mono['color']}">
-                        <span class="card-icono">{mono['icono']}</span>
-                        <div class="card-titulo">{mono['titulo']}</div>
-                        <div class="card-desc">{mono['descripcion']}</div>
-                        <div class="card-ediciones-label">{n_ediciones} edición{"es" if n_ediciones > 1 else ""}</div>
-                        {badges_html}
-                    </div>
-                    """, unsafe_allow_html=True)
-                    if st.button("Ver monográfico →", key=f"btn_mono_{i}"):
-                        st.session_state.mono_seleccionado = i
-                        st.session_state.vista_mono = "detalle"
-                        st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+
+            # Rejilla por filas, no por columnas verticales.
+            # Así cada nueva fila empieza después de la ficha más alta de la fila anterior.
+            for fila_inicio in range(0, len(monograficos), 3):
+                cols = st.columns(3, gap="large")
+                for offset, mono in enumerate(monograficos[fila_inicio:fila_inicio + 3]):
+                    i = fila_inicio + offset
+                    with cols[offset]:
+                        n_ediciones = len(mono["ediciones"])
+                        badges_html = ""
+                        for j, ed in enumerate(mono["ediciones"]):
+                            clase = "badge-edicion-latest" if j == len(mono["ediciones"]) - 1 else ""
+                            badges_html += f'<span class="badge-edicion {clase}" style="--card-color:{mono["color"]}">{ed["nombre"]} · {ed["fecha"]}</span>'
+                        st.markdown(f"""
+                        <div class="card-mono" style="--card-color:{mono['color']}">
+                            <span class="card-icono">{mono['icono']}</span>
+                            <div class="card-titulo">{mono['titulo']}</div>
+                            <div class="card-desc">{mono['descripcion']}</div>
+                            <div class="card-ediciones-label">{n_ediciones} edición{"es" if n_ediciones > 1 else ""}</div>
+                            <div class="card-badges">
+                                {badges_html}
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        if st.button("Ver monográfico →", key=f"btn_mono_{i}"):
+                            st.session_state.mono_seleccionado = i
+                            st.session_state.vista_mono = "detalle"
+                            st.rerun()
 
     elif st.session_state.vista_mono == "detalle":
         mono = monograficos[st.session_state.mono_seleccionado]
@@ -365,17 +394,15 @@ def mostrar_monograficos():
         </div>
         """, unsafe_allow_html=True)
 
-        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        _margen_izq, area, _margen_der = columnas_contenido()
         with area:
-            col_b, _ = st.columns([1, 5])
+            col_b, _ = st.columns([1, 10])
             with col_b:
                 if st.button("← Volver al catálogo", key="btn_back_detalle"):
                     st.session_state.vista_mono = "catalogo"
                     st.rerun()
 
-        st.markdown('<div class="detalle-body">', unsafe_allow_html=True)
-        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
-        with area:
+            st.markdown('<div class="espacio-acciones-seccion"></div>', unsafe_allow_html=True)
             st.markdown('<div class="seccion-titulo">Ediciones disponibles</div>', unsafe_allow_html=True)
             total = len(mono["ediciones"])
             for j, ed in enumerate(reversed(mono["ediciones"])):
@@ -401,7 +428,6 @@ def mostrar_monograficos():
                     '</div>'
                 )
                 st.markdown(card_html, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # =============================================================
@@ -410,9 +436,9 @@ def mostrar_monograficos():
 def mostrar_operadoras():
     mostrar_cabecera("Cuadro de Mando · Operadoras")
 
-    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    _margen_izq, area, _margen_der = columnas_contenido()
     with area:
-        col_v, col_c, _ = st.columns([1, 1, 6])
+        col_v, col_c, _ = st.columns([1, 1, 10])
         with col_v:
             if st.button("← Portal", key="portal_op"):
                 st.session_state.seccion = "selector"

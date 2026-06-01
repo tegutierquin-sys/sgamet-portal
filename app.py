@@ -288,7 +288,7 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
                 <div class="portal-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</div>
             </div>
         </div>
-        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:72px;width:auto;object-fit:contain;flex-shrink:0;" />
+        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:82px;width:auto;object-fit:contain;flex-shrink:0;" />
       </div>
     </div>
     """, unsafe_allow_html=True)

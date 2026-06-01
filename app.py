@@ -360,7 +360,7 @@ def columnas_contenido():
 # =============================================================
 # CABECERA COMÚN (visible tras login)
 # =============================================================
-def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
+def mostrar_cabecera(subtitulo="Portal de trabajos realizados en SGAMET"):
     st.markdown(f"""
     <div class="portal-header">
       <div class="portal-header-inner">

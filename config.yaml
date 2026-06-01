@@ -1,0 +1,88 @@
+monograficos:
+  - titulo: "Fondos de Inversión"
+    icono: "📈"
+    color: "#1a5c3a"
+    descripcion: "Fondos de inversión en el sector de telecomunicaciones e infraestructuras digitales en España: estructura, tipología de transacciones, principales actores y tendencias 2025."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2025"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQAWHxES-VlzRJrb0je0pp2kAYMMPl0gwOu4UBVg3x1PyRE?e=KhaHGz"
+
+  - titulo: "Satélites"
+    icono: "📡"
+    color: "#1a3a5c"
+    descripcion: "Análisis del mercado satelital: operadores, cobertura, tecnologías LEO/GEO y evolución del sector en España y Europa."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2025"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQAlJTyYRmeyR6Ts2jPBtD84AQeESHNz0WNsTMMV2nO0W9M?e=hMxDwj"
+
+  - titulo: "Cable Submarino"
+    icono: "🌊"
+    color: "#0d4f6e"
+    descripcion: "Infraestructuras de cable submarino: rutas, operadores, capacidad y relevancia estratégica para la conectividad global."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2026"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQDZxQdq73KiRYHHL-1CtkM-AdAcc17v_yRcsAE1hD-t6ZQ?e=55RFcd"
+
+  - titulo: "Torreros"
+    icono: "🗼"
+    color: "#2d5016"
+    descripcion: "Mercado de infraestructuras pasivas de telecomunicaciones: empresas torreras, concentración, regulación y tendencias."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2025"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQD8CHnSxAToRKf9FO0dgoEbAf_BlGs4WHxgz8Rn56T-PXw?e=pBpQNu"
+      - nombre: "2ª Edición"
+        fecha: "2025"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQDG4sV4zjycS6CXs2P-G9EeAQMcsCq3BHdsKa94zqPBOkM?e=oe9OB7"
+        extra_links:
+          - etiqueta: "📊 Dashboard interactivo · TowerCos"
+            url: "https://towercos-analisis-datos.netlify.app/"
+
+  - titulo: "Fibercos"
+    icono: "📶"
+    color: "#4a1a6e"
+    descripcion: "Empresas de fibra óptica mayorista: modelos de negocio, inversión, despliegue y competencia en el mercado español."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2025"
+        sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQCg_FvsTpc7TbFBA2RZzR_0AWzX7BCre8lIuSL8RPU2Qt8?e=eOVOra"
+
+  - titulo: "Next - Inteligencia Artificial"
+    icono: "🤖"
+    color: "#6e1a1a"
+    descripcion: "Inteligencia Artificial en el sector telco: casos de uso, modelos de negocio, IA Factory y retos regulatorios en España."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2026"
+        sharepoint_url: ""
+
+  - titulo: "En progreso - Centro de Datos - Edge"
+    icono: "🗄️"
+    color: "#2c3e6e"
+    descripcion: "Impacto de la IA en el sector de las telecomunicaciones: aplicaciones, infraestructura necesaria y retos regulatorios."
+    ediciones:
+      - nombre: "1ª Edición"
+        fecha: "2026"
+        sharepoint_url: "" 
+
+
+# ─────────────────────────────────────────────────────────────
+# CÓMO AÑADIR UN NUEVO MONOGRÁFICO:
+# 1. Copia el bloque de arriba (desde "- titulo:" hasta el último sharepoint_url)
+# 2. Pégalo al final de la lista
+# 3. Rellena titulo, icono, color, descripcion y ediciones
+# 4. Haz commit en GitHub → la app se actualiza sola
+#
+# CÓMO AÑADIR UNA NUEVA EDICIÓN:
+# 1. Localiza el monográfico en este archivo
+# 2. Añade un nuevo bloque bajo "ediciones:"
+#      - nombre: "3ª Edición"
+#        fecha: "2026"
+#        sharepoint_url: "https://..."
+#        extra_links:                          ← opcional
+#          - etiqueta: "📊 Dashboard"
+#            url: "https://..."
+# ─────────────────────────────────────────────────────────────

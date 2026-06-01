@@ -188,7 +188,6 @@ if not st.session_state.autenticado:
 def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
     st.markdown(f"""
     <div class="portal-header">
-      <div class="portal-header-inner">
         <div class="portal-header-left">
             <div class="portal-header-logo"><img src="data:image/jpeg;base64,{LOGO_B64}" /></div>
             <div class="portal-header-text">
@@ -197,9 +196,7 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
                 <div class="portal-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</div>
             </div>
         </div>
-        <div style="background:white;border-radius:8px;padding:8px 16px;display:flex;align-items:center;flex-shrink:0;">
-            <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:100px;width:auto;object-fit:contain;" />
-        </div>
+        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:48px;width:auto;object-fit:contain;flex-shrink:0;" />
     </div>
     """, unsafe_allow_html=True)
 
@@ -209,12 +206,14 @@ def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
 # =============================================================
 def mostrar_selector():
     mostrar_cabecera()
+    st.markdown('<div class="page-content">', unsafe_allow_html=True)
     col_cerrar, _ = st.columns([1, 8])
     with col_cerrar:
         if st.button("🔒 Cerrar sesión", key="cerrar_sel"):
             st.session_state.autenticado = False
             st.rerun()
 
+    st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('<div class="portal-body">', unsafe_allow_html=True)
     st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
 
@@ -253,6 +252,7 @@ def mostrar_selector():
 # =============================================================
 def mostrar_monograficos():
     mostrar_cabecera("Biblioteca de Monográficos")
+    st.markdown('<div class="page-content">', unsafe_allow_html=True)
     col_c1, col_c2, _ = st.columns([1, 1, 6])
     with col_c1:
         if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
@@ -266,6 +266,7 @@ def mostrar_monograficos():
             st.session_state.vista_mono = "catalogo"
             st.rerun()
     st.markdown('<div class="nota-confidencial-inline">🔐 Uso interno · Consulta con SGAMET antes de compartir</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if st.session_state.vista_mono == "catalogo":
         st.markdown('<div class="portal-body"><div class="contenido-interior">', unsafe_allow_html=True)
@@ -297,6 +298,7 @@ def mostrar_monograficos():
         mono = monograficos[st.session_state.mono_seleccionado]
         st.markdown(f"""
         <div class="detalle-header">
+          <div class="detalle-header-inner">
             <div class="detalle-icono-titulo">
                 <span class="detalle-icono">{mono['icono']}</span>
                 <div><div class="detalle-titulo">{mono['titulo']}</div></div>

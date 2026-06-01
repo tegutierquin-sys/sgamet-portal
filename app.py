@@ -14,15 +14,17 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# ── Estado de sesión ──────────────────────────────────────────
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 if "seccion" not in st.session_state:
-    st.session_state.seccion = "selector"
+    st.session_state.seccion = "selector"   # selector | mono | operadoras
 if "vista_mono" not in st.session_state:
     st.session_state.vista_mono = "catalogo"
 if "mono_seleccionado" not in st.session_state:
     st.session_state.mono_seleccionado = None
 
+# ── Cargar config ─────────────────────────────────────────────
 @st.cache_data(ttl=0)
 def cargar_config():
     config_path = Path(__file__).parent / "config.yaml"
@@ -32,298 +34,319 @@ def cargar_config():
 config = cargar_config()
 monograficos = config["monograficos"]
 
-CSS = """
+# ─────────────────────────────────────────────────────────────
+# CSS GLOBAL
+# ─────────────────────────────────────────────────────────────
+st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap');
-
 * { box-sizing: border-box; }
+.stApp { background: #f4f1ec; font-family: 'Inter', sans-serif; }
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding: 0 !important; max-width: 100% !important; }
 section.main > div { padding-left: 0 !important; padding-right: 0 !important; padding-top: 0 !important; }
 .stMarkdown { margin: 0 !important; }
+.contenido-interior { padding-left: 72px !important; padding-right: 72px !important; }
 
-.stApp { background: #f4f1ec; font-family: 'Inter', sans-serif; }
-
-/* ── CABECERA ── */
-.portal-header {
-    background: linear-gradient(160deg, #003366 0%, #005A9C 60%, #F2C811 100%);
-    border-bottom: 3px solid #F2C811;
-    margin: -1rem -1rem 0 -1rem;
-    padding: 0;
-}
-.portal-header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.portal-header-left { display: flex; align-items: center; gap: 20px; }
-.portal-header-logo img { height: 56px; display: block; }
-.portal-ministerio-label {
-    font-family: 'Syne', sans-serif; font-size: 10px;
-    letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(255,255,255,0.75); margin-bottom: 4px;
-}
-.portal-titulo {
-    font-family: 'Syne', sans-serif; font-size: 24px;
-    font-weight: 700; color: #ffffff;
-}
-.portal-subtitulo {
-    font-size: 13px; color: rgba(255,255,255,0.6);
-    font-weight: 300; margin-top: 2px;
-}
-
-/* ── WRAPPER DE CONTENIDO ── */
-.cw {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 48px;
-}
-
-/* ── LOGIN ── */
+/* LOGIN */
 .tarjeta-login {
     background: white; border-radius: 12px; padding: 40px 48px;
     max-width: 480px; margin: 40px auto;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25); text-align: center;
 }
+.logo-container { text-align: center; margin-bottom: 24px; }
 .separador-amarillo { border: none; border-top: 2px solid #F2C811; margin: 16px 0 24px 0; }
-.login-titulo { font-size: 1.3rem; font-weight: 700; color: #003366; margin-bottom: 4px; }
-.login-subtitulo { font-size: 1rem; color: #005A9C; font-weight: 600; margin-bottom: 8px; }
-.login-label { font-size: 0.85rem; color: #666; margin-bottom: 8px; }
+.login-titulo-inst { font-size: 1.3rem; font-weight: 700; color: #003366; text-align: center; line-height: 1.4; margin-bottom: 4px; }
+.login-subtitulo-inst { font-size: 1rem; color: #005A9C; text-align: center; font-weight: 600; margin-bottom: 8px; }
+.login-label { font-size: 0.85rem; color: #666; margin-bottom: 8px; text-align: center; }
 .login-pie { text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 16px; }
 
-/* ── SECCION TITULO ── */
-.seccion-titulo {
-    font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
-    letter-spacing: 2px; text-transform: uppercase; color: #444;
-    margin: 32px 0 24px; padding-bottom: 12px; border-bottom: 1px solid #ddd;
+/* CABECERA */
+.portal-header {
+    background: linear-gradient(160deg, #003366 0%, #005A9C 60%, #F2C811 100%);
+    padding: 28px 48px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom: 3px solid #F2C811;
+    margin: -1rem -1rem 0 -1rem;
 }
+.portal-header-left { display: flex; align-items: center; gap: 24px; }
+.portal-header-logo img { height: 56px; display: block; }
+.portal-header-text { display: flex; flex-direction: column; }
+.portal-ministerio-label { font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 4px; }
+.portal-titulo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #ffffff; }
+.portal-subtitulo { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 300; margin-top: 1px; }
+.portal-body { padding: 32px 60px 48px 80px; }
 
-/* ── TARJETAS SELECTOR ── */
+/* TARJETAS SELECTOR */
 .access-card {
-    background: #fff; border-radius: 20px; padding: 32px;
+    background: #ffffff; border-radius: 20px; padding: 36px 32px;
     border: 1px solid #e8e4df; transition: all 0.3s ease;
     height: 100%; position: relative; overflow: hidden;
 }
-.access-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 5px; background: var(--card-color, #2E74B5);
-}
-.access-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-color: var(--card-color, #2E74B5); }
-.access-icono { font-size: 40px; margin-bottom: 14px; display: block; }
-.access-titulo { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; color: #0d1b2a; margin-bottom: 10px; }
-.access-desc { font-size: 13px; color: #666; line-height: 1.6; }
+.access-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--card-color, #2E74B5); }
+.access-card:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(0,0,0,0.12); border-color: var(--card-color, #2E74B5); }
+.access-icono { font-size: 44px; margin-bottom: 16px; display: block; }
+.access-titulo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: #0d1b2a; margin-bottom: 10px; }
+.access-desc { font-size: 13.5px; color: #666; line-height: 1.6; margin-bottom: 24px; }
+.access-cta { display: none; }
+.seccion-titulo { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
 
-/* ── TARJETAS MONOGRAFICOS ── */
-.card-mono {
-    background: #fff; border-radius: 16px; padding: 20px;
-    border: 1px solid #e8e4df; transition: all 0.3s ease;
-    height: 100%; position: relative; overflow: hidden;
-}
+/* TARJETAS MONOGRÁFICOS */
+.card-mono { background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e8e4df; transition: all 0.3s ease; height: 100%; position: relative; overflow: hidden; }
 .card-mono::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--card-color, #005aa0); }
-.card-mono:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+.card-mono:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); border-color: var(--card-color, #005aa0); }
 .card-icono { font-size: 28px; margin-bottom: 10px; display: block; }
 .card-titulo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #0d1b2a; margin-bottom: 6px; }
-.card-desc { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 12px; }
+.card-desc { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 12px; font-weight: 400; }
 .card-ediciones-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
 .badge-edicion { display: inline-block; background: #f4f1ec; border: 1px solid #e0dbd4; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 500; color: #555; margin-right: 6px; margin-bottom: 6px; }
 .badge-edicion-latest { background: var(--card-color, #005aa0); color: white; border-color: var(--card-color, #005aa0); }
 
-/* ── DETALLE ── */
-.detalle-header {
-    background: linear-gradient(160deg, #003366 0%, #005A9C 60%, #F2C811 100%);
-    border-bottom: 3px solid #F2C811; padding: 0;
-}
-.detalle-header-inner { max-width: 1200px; margin: 0 auto; padding: 20px 48px; }
+/* DETALLE */
+.detalle-header { background: linear-gradient(160deg, #003366 0%, #005A9C 60%, #F2C811 100%); padding: 16px 48px; border-bottom: 3px solid #F2C811; }
 .detalle-icono-titulo { display: flex; align-items: center; gap: 20px; }
 .detalle-icono { font-size: 36px; }
 .detalle-titulo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: white; }
-.detalle-desc { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 6px; max-width: 700px; line-height: 1.5; }
-
-.edicion-card {
-    background: white; border-radius: 16px; padding: 20px 32px;
-    border: 1px solid #e8e4df; margin-bottom: 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; transition: all 0.2s;
-}
+.detalle-desc { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 6px; font-weight: 300; max-width: 600px; line-height: 1.5; }
+.detalle-body { padding: 32px 60px 48px 80px; }
+.edicion-card { background: white; border-radius: 16px; padding: 20px 32px; border: 1px solid #e8e4df; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s ease; flex-wrap: wrap; }
 .edicion-card:hover { border-color: #005aa0; box-shadow: 0 8px 30px rgba(0,90,160,0.08); }
 .edicion-card-left { display: flex; align-items: center; gap: 20px; }
 .edicion-numero { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #e8e4df; min-width: 40px; }
 .edicion-info-nombre { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #0d1b2a; }
 .edicion-info-fecha { font-size: 14px; color: #aaa; margin-top: 2px; }
 .latest-badge { background: #005aa0; color: white; font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-left: 10px; }
-.btn-acceder { display: inline-block; background: #fff; color: #003366 !important; border: 2px solid #003366; border-radius: 10px; padding: 10px 20px; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
-.btn-acceder:hover { background: #003366; color: white !important; }
+.btn-acceder { display: inline-block; background: #ffffff; color: #003366 !important; border: 2px solid #003366; border-radius: 10px; padding: 10px 20px; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+.btn-acceder:hover { background: #003366; color: white !important; text-decoration: none; }
 .badge-proximamente { display: inline-block; background: #f4f1ec; border: 1px dashed #ccc; border-radius: 10px; padding: 10px 20px; font-size: 12px; color: #aaa; }
 .extra-links-row { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
 .btn-extra { display: inline-block; background: #fff8e1; color: #7a5500 !important; border: 1px solid #F2C811; border-radius: 10px; padding: 8px 16px; font-size: 12px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
-.btn-extra:hover { background: #F2C811; color: #003366 !important; }
+.btn-extra:hover { background: #F2C811; color: #003366 !important; text-decoration: none; }
+.nota-confidencial-inline { font-size: 12px; color: #888; margin-top: -8px; margin-bottom: 8px; padding-left: 4px; font-style: italic; }
 
-/* ── OPERADORAS ── */
+/* OPERADORAS */
 .tarjeta-op { background: white; border-radius: 12px; padding: 40px 48px; max-width: 480px; margin: 40px auto; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
-.titulo-op { font-size: 1.3rem; font-weight: 700; color: #003366; text-align: center; margin-bottom: 4px; }
+.titulo-op { font-size: 1.3rem; font-weight: 700; color: #003366; text-align: center; line-height: 1.4; margin-bottom: 4px; }
 .subtitulo-op { font-size: 1rem; color: #005A9C; text-align: center; font-weight: 600; margin-bottom: 24px; }
 .separador-op { border: none; border-top: 2px solid #F2C811; margin: 16px 0 24px 0; }
-.label-acceso { font-size: 0.85rem; color: #666; text-align: center; margin-bottom: 8px; }
+.label-acceso { font-size: 0.85rem; color: #666; margin-bottom: 8px; text-align: center; }
 .pie-op { text-align: center; font-size: 0.75rem; color: #999; margin-top: 24px; }
 .btn-dashboard { display: inline-block; background-color: #F2C811; color: #003366 !important; font-weight: 700; font-size: 1.05rem; padding: 14px 32px; border-radius: 8px; text-decoration: none; margin-top: 16px; }
 .btn-dashboard:hover { background-color: #e0b800; }
 
-.nota-conf { font-size: 12px; color: #888; padding: 4px 0 8px; font-style: italic; }
-
-/* ── STREAMLIT OVERRIDES ── */
+/* Streamlit overrides */
 div[data-testid="stTextInput"] input {
-    border-radius: 10px !important; color: #000 !important;
-    padding: 14px 18px !important; font-size: 14px !important;
+    background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.15) !important;
+    border-radius: 10px !important; color: #000000 !important;
+    font-family: 'Inter', sans-serif !important; padding: 14px 18px !important;
+    font-size: 14px !important; caret-color: #000000 !important;
 }
+div[data-testid="stTextInput"] input::placeholder { color: rgba(0,0,0,0.3) !important; }
 div[data-testid="stButton"] button {
     background: #005aa0 !important; color: white !important; border: none !important;
-    border-radius: 10px !important; padding: 12px 24px !important;
+    border-radius: 10px !important; padding: 14px 28px !important;
     font-family: 'Syne', sans-serif !important; font-weight: 600 !important;
-    font-size: 13px !important; width: 100% !important;
+    font-size: 13px !important; letter-spacing: 1px !important;
+    width: 100% !important; transition: background 0.2s !important;
 }
 div[data-testid="stButton"] button:hover { background: #004080 !important; }
-div[data-testid="stAlert"] { border-radius: 10px !important; }
+div[data-testid="stAlert"] { background: rgba(220,50,50,0.15) !important; border: 1px solid rgba(220,50,50,0.3) !important; border-radius: 10px !important; color: #ff8080 !important; }
+
+/* LAYOUT CENTRADO COMÚN
+   Esta capa no depende de abrir/cerrar divs alrededor de elementos de Streamlit.
+   El centrado real de columnas se hace también con st.columns simétricas en cada vista. */
+.portal-header {
+    margin: 0 !important;
+    padding: 28px 0 !important;
+}
+.portal-header-inner,
+.detalle-header-inner,
+.page-content,
+.content-wrapper {
+    width: min(1180px, calc(100vw - 96px));
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.portal-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+.detalle-header {
+    padding: 16px 0 !important;
+}
+.portal-body,
+.detalle-body {
+    padding: 32px 0 48px 0 !important;
+}
+@media (max-width: 900px) {
+    .portal-header-inner,
+    .detalle-header-inner,
+    .page-content,
+    .content-wrapper {
+        width: min(100% - 32px, 1180px);
+    }
+    .portal-header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .portal-body,
+    .detalle-body {
+        padding: 24px 0 36px 0 !important;
+    }
+}
+
 </style>
-"""
-
-st.markdown(CSS, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────────────────────
-def cabecera(subtitulo="Portal de Análisis · SGAMET"):
+# =============================================================
+# 1. LOGIN ÚNICO
+# =============================================================
+if not st.session_state.autenticado:
+    st.markdown("""<style>.stApp { background: linear-gradient(160deg, #003366 0%, #005A9C 60%, #F2C811 100%) !important; }</style>""", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="tarjeta-login">
+        <div class="logo-container"><img src="data:image/jpeg;base64,{LOGO_B64}" width="320" /></div>
+        <hr class="separador-amarillo"/>
+        <p class="login-titulo-inst">Portal de Análisis · SGAMET</p>
+        <p class="login-subtitulo-inst">Subdirección General de Análisis de Mercado y Evolución Tecnológica</p>
+        <p class="login-label">Introduce la clave para acceder</p>
+    </div>
+    """, unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1.5, 1, 1.5])
+    with col2:
+        clave = st.text_input("Clave", type="password", label_visibility="collapsed", placeholder="Contraseña...")
+        if st.button("Entrar", use_container_width=True, key="btn_login"):
+            clave_correcta = st.secrets.get("ACCESS_PASSWORD", "SGAMET2026")
+            if clave == clave_correcta:
+                st.session_state.autenticado = True
+                st.rerun()
+            else:
+                st.error("Clave incorrecta. Contacta con tu equipo.")
+    st.markdown('<p class="login-pie">S.G. de Análisis del Mercado y Evolución Tecnológica · SETELECO · 2026</p>', unsafe_allow_html=True)
+    st.stop()
+
+
+# =============================================================
+# CABECERA COMÚN (visible tras login)
+# =============================================================
+def mostrar_cabecera(subtitulo="Portal de Análisis · SGAMET"):
     st.markdown(f"""
     <div class="portal-header">
       <div class="portal-header-inner">
         <div class="portal-header-left">
-          <div class="portal-header-logo"><img src="data:image/jpeg;base64,{LOGO_B64}" /></div>
-          <div>
-            <div class="portal-ministerio-label">Ministerio para la Transformación Digital y de la Función Pública</div>
-            <div class="portal-titulo">{subtitulo}</div>
-            <div class="portal-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</div>
-          </div>
+            <div class="portal-header-logo"><img src="data:image/jpeg;base64,{LOGO_B64}" /></div>
+            <div class="portal-header-text">
+                <div class="portal-ministerio-label">Ministerio para la Transformación Digital y de la Función Pública</div>
+                <div class="portal-titulo">{subtitulo}</div>
+                <div class="portal-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</div>
+            </div>
         </div>
-        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:70px;width:auto;object-fit:contain;flex-shrink:0;" />
+        <img src="data:image/jpeg;base64,{LOGOS_EU_B64}" style="height:72px;width:auto;object-fit:contain;flex-shrink:0;" />
       </div>
     </div>
     """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────────────────────
-# LOGIN
-# ─────────────────────────────────────────────────────────────
-if not st.session_state.autenticado:
-    st.markdown("""<style>.stApp{background:linear-gradient(160deg,#003366 0%,#005A9C 60%,#F2C811 100%) !important;}</style>""",
-                unsafe_allow_html=True)
-    st.markdown(f"""
-    <div class="tarjeta-login">
-        <img src="data:image/jpeg;base64,{LOGO_B64}" width="300" style="margin-bottom:16px;" />
-        <hr class="separador-amarillo"/>
-        <p class="login-titulo">Portal de Análisis · SGAMET</p>
-        <p class="login-subtitulo">Subdirección General de Análisis de Mercado y Evolución Tecnológica</p>
-        <p class="login-label">Introduce la clave para acceder</p>
-    </div>
-    """, unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([1.5, 1, 1.5])
-    with c2:
-        clave = st.text_input("Clave", type="password", label_visibility="collapsed", placeholder="Contraseña...")
-        if st.button("Entrar", use_container_width=True, key="btn_login"):
-            ok = st.secrets.get("ACCESS_PASSWORD", "SGAMET2026")
-            if clave == ok:
-                st.session_state.autenticado = True
-                st.rerun()
-            else:
-                st.error("Clave incorrecta.")
-    st.markdown('<p class="login-pie">S.G. de Análisis del Mercado y Evolución Tecnológica · SETELECO · 2026</p>',
-                unsafe_allow_html=True)
-    st.stop()
-
-
-# ─────────────────────────────────────────────────────────────
-# SELECTOR
-# ─────────────────────────────────────────────────────────────
+# =============================================================
+# 2. SELECTOR DE HERRAMIENTA
+# =============================================================
 def mostrar_selector():
-    cabecera()
-    st.markdown('<div class="cw">', unsafe_allow_html=True)
-    c1, _ = st.columns([1, 6])
-    with c1:
-        if st.button("🔒 Cerrar sesión", key="cerrar_sel"):
-            st.session_state.autenticado = False
-            st.rerun()
-    st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
-    col1, gap, col2, _ = st.columns([1, 0.08, 1, 0.5])
-    with col1:
-        st.markdown("""
-        <div class="access-card" style="--card-color:#1F3864;">
-            <span class="access-icono">📚</span>
-            <p class="access-titulo">Biblioteca de Monográficos</p>
-            <p class="access-desc">Colección de estudios sectoriales sobre telecomunicaciones e infraestructuras digitales en España: fondos de inversión, satélites, cable submarino, torreros, fibercos, centros de datos e inteligencia artificial.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button("📚 Ir a Monográficos", key="btn_mono"):
-            st.session_state.seccion = "mono"
-            st.rerun()
-    with col2:
-        st.markdown("""
-        <div class="access-card" style="--card-color:#375623;">
-            <span class="access-icono">📊</span>
-            <p class="access-titulo">Cuadro de Mando · Operadoras</p>
-            <p class="access-desc">Dashboard interactivo con las principales magnitudes económicas y de mercado de las operadoras de telecomunicaciones en España.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button("📊 Ir a Operadoras", key="btn_oper"):
-            st.session_state.seccion = "operadoras"
-            st.rerun()
+    mostrar_cabecera()
+
+    # Barra superior de acciones, con el mismo ancho visual que el contenido.
+    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    with area:
+        col_cerrar, _ = st.columns([1, 8])
+        with col_cerrar:
+            if st.button("🔒 Cerrar sesión", key="cerrar_sel"):
+                st.session_state.autenticado = False
+                st.rerun()
+
+    st.markdown('<div class="portal-body">', unsafe_allow_html=True)
+
+    # Márgenes invisibles simétricos. Así el centrado no depende del HTML inyectado.
+    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    with area:
+        st.markdown('<div class="seccion-titulo">Selecciona una herramienta</div>', unsafe_allow_html=True)
+        col1, gap, col2 = st.columns([1, 0.12, 1], gap="large")
+
+        with col1:
+            st.markdown("""
+            <div class="access-card" style="--card-color: #1F3864;">
+                <span class="access-icono">📚</span>
+                <p class="access-titulo">Biblioteca de Monográficos</p>
+                <p class="access-desc">Colección de estudios sectoriales sobre telecomunicaciones e infraestructuras digitales en España: fondos de inversión, satélites, cable submarino, torreros, fibercos, centros de datos e inteligencia artificial.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("📚 Ir a Monográficos", key="btn_mono"):
+                st.session_state.seccion = "mono"
+                st.rerun()
+
+        with col2:
+            st.markdown("""
+            <div class="access-card" style="--card-color: #375623;">
+                <span class="access-icono">📊</span>
+                <p class="access-titulo">Cuadro de Mando · Operadoras</p>
+                <p class="access-desc">Dashboard interactivo con las principales magnitudes económicas y de mercado de las operadoras de telecomunicaciones en España.</p>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("📊 Ir a Operadoras", key="btn_oper"):
+                st.session_state.seccion = "operadoras"
+                st.rerun()
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────────────────────
-# MONOGRÁFICOS
-# ─────────────────────────────────────────────────────────────
+# =============================================================
+# 3. MONOGRÁFICOS
+# =============================================================
 def mostrar_monograficos():
-    cabecera("Biblioteca de Monográficos")
-    st.markdown('<div class="cw">', unsafe_allow_html=True)
-    c1, c2, _ = st.columns([1, 1, 5])
-    with c1:
-        if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
-            st.session_state.autenticado = False
-            st.session_state.seccion = "selector"
-            st.session_state.vista_mono = "catalogo"
-            st.rerun()
-    with c2:
-        if st.button("← Portal", key="portal_mono"):
-            st.session_state.seccion = "selector"
-            st.session_state.vista_mono = "catalogo"
-            st.rerun()
-    st.markdown('<p class="nota-conf">🔐 Uso interno · Consulta con SGAMET antes de compartir</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    mostrar_cabecera("Biblioteca de Monográficos")
+
+    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    with area:
+        col_c1, col_c2, _ = st.columns([1, 1, 6])
+        with col_c1:
+            if st.button("🔒 Cerrar sesión", key="cerrar_mono"):
+                st.session_state.autenticado = False
+                st.session_state.seccion = "selector"
+                st.session_state.vista_mono = "catalogo"
+                st.rerun()
+        with col_c2:
+            if st.button("← Portal", key="portal_mono"):
+                st.session_state.seccion = "selector"
+                st.session_state.vista_mono = "catalogo"
+                st.rerun()
+        st.markdown('<div class="nota-confidencial-inline">🔐 Uso interno · Consulta con SGAMET antes de compartir</div>', unsafe_allow_html=True)
 
     if st.session_state.vista_mono == "catalogo":
-        st.markdown('<div class="cw">', unsafe_allow_html=True)
-        st.markdown('<div class="seccion-titulo">Monográficos disponibles</div>', unsafe_allow_html=True)
-        cols = st.columns(3, gap="large")
-        for i, mono in enumerate(monograficos):
-            with cols[i % 3]:
-                n = len(mono["ediciones"])
-                badges = ""
-                for j, ed in enumerate(mono["ediciones"]):
-                    cls = "badge-edicion-latest" if j == len(mono["ediciones"]) - 1 else ""
-                    badges += f'<span class="badge-edicion {cls}" style="--card-color:{mono["color"]}">{ed["nombre"]} · {ed["fecha"]}</span>'
-                st.markdown(f"""
-                <div class="card-mono" style="--card-color:{mono["color"]}">
-                    <span class="card-icono">{mono["icono"]}</span>
-                    <div class="card-titulo">{mono["titulo"]}</div>
-                    <div class="card-desc">{mono["descripcion"]}</div>
-                    <div class="card-ediciones-label">{n} edición{"es" if n > 1 else ""}</div>
-                    {badges}
-                </div>
-                """, unsafe_allow_html=True)
-                if st.button("Ver monográfico →", key=f"btn_m_{i}"):
-                    st.session_state.mono_seleccionado = i
-                    st.session_state.vista_mono = "detalle"
-                    st.rerun()
+        st.markdown('<div class="portal-body">', unsafe_allow_html=True)
+        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        with area:
+            st.markdown('<div class="seccion-titulo">Monográficos disponibles</div>', unsafe_allow_html=True)
+            cols = st.columns(3, gap="large")
+            for i, mono in enumerate(monograficos):
+                with cols[i % 3]:
+                    n_ediciones = len(mono["ediciones"])
+                    badges_html = ""
+                    for j, ed in enumerate(mono["ediciones"]):
+                        clase = "badge-edicion-latest" if j == len(mono["ediciones"]) - 1 else ""
+                        badges_html += f'<span class="badge-edicion {clase}" style="--card-color:{mono["color"]}">{ed["nombre"]} · {ed["fecha"]}</span>'
+                    st.markdown(f"""
+                    <div class="card-mono" style="--card-color:{mono['color']}">
+                        <span class="card-icono">{mono['icono']}</span>
+                        <div class="card-titulo">{mono['titulo']}</div>
+                        <div class="card-desc">{mono['descripcion']}</div>
+                        <div class="card-ediciones-label">{n_ediciones} edición{"es" if n_ediciones > 1 else ""}</div>
+                        {badges_html}
+                    </div>
+                    """, unsafe_allow_html=True)
+                    if st.button("Ver monográfico →", key=f"btn_mono_{i}"):
+                        st.session_state.mono_seleccionado = i
+                        st.session_state.vista_mono = "detalle"
+                        st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
     elif st.session_state.vista_mono == "detalle":
@@ -332,44 +355,75 @@ def mostrar_monograficos():
         <div class="detalle-header">
           <div class="detalle-header-inner">
             <div class="detalle-icono-titulo">
-              <span class="detalle-icono">{mono["icono"]}</span>
-              <div><div class="detalle-titulo">{mono["titulo"]}</div></div>
+                <span class="detalle-icono">{mono['icono']}</span>
+                <div><div class="detalle-titulo">{mono['titulo']}</div></div>
             </div>
-            <div class="detalle-desc">{mono["descripcion"]}</div>
+            <div class="detalle-desc">{mono['descripcion']}</div>
           </div>
         </div>
         """, unsafe_allow_html=True)
-        st.markdown('<div class="cw">', unsafe_allow_html=True)
-        c, _ = st.columns([1, 5])
-        with c:
-            if st.button("← Volver al catálogo", key="btn_back"):
-                st.session_state.vista_mono = "catalogo"
-                st.rerun()
-        st.markdown('<div class="seccion-titulo">Ediciones disponibles</div>', unsafe_allow_html=True)
-        total = len(mono["ediciones"])
-        for j, ed in enumerate(reversed(mono["ediciones"])):
-            es_ultima = (j == 0)
-            num = total - j
-            badge = '<span class="latest-badge">Última edición</span>' if es_ultima else ""
-            url = ed.get("sharepoint_url", "").strip()
-            btn = f'<a href="{url}" target="_blank" class="btn-acceder">Ver documento ↗</a>' if url else '<span class="badge-proximamente">🔒 Próximamente</span>'
-            extras = ed.get("extra_links", [])
-            ext_html = "".join(f'<a href="{e["url"]}" target="_blank" class="btn-extra">{e["etiqueta"]}</a>' for e in extras)
-            ext_sec = f'<div class="extra-links-row" style="margin-top:10px;padding-top:10px;border-top:1px solid #eee;width:100%">{ext_html}</div>' if ext_html else ""
-            st.markdown(
-                f'<div class="edicion-card"><div class="edicion-card-left"><div class="edicion-numero">0{num}</div><div><div class="edicion-info-nombre">{ed["nombre"]} {badge}</div><div class="edicion-info-fecha">Publicado en {ed["fecha"]}</div></div></div><div>{btn}</div>{ext_sec}</div>',
-                unsafe_allow_html=True
-            )
+
+        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        with area:
+            col_b, _ = st.columns([1, 5])
+            with col_b:
+                if st.button("← Volver al catálogo", key="btn_back_detalle"):
+                    st.session_state.vista_mono = "catalogo"
+                    st.rerun()
+
+        st.markdown('<div class="detalle-body">', unsafe_allow_html=True)
+        _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+        with area:
+            st.markdown('<div class="seccion-titulo">Ediciones disponibles</div>', unsafe_allow_html=True)
+            total = len(mono["ediciones"])
+            for j, ed in enumerate(reversed(mono["ediciones"])):
+                es_ultima = (j == 0)
+                num_real = total - j
+                latest_badge = '<span class="latest-badge">Última edición</span>' if es_ultima else ""
+                tiene_url = bool(ed.get('sharepoint_url', '').strip())
+                url = ed.get('sharepoint_url', '')
+                extra_links = ed.get('extra_links', [])
+                botones_html = ('<a href="' + url + '" target="_blank" class="btn-acceder">Ver documento ↗</a>') if tiene_url else '<span class="badge-proximamente">🔒 Próximamente</span>'
+                extras_html = ''.join('<a href="' + ex["url"] + '" target="_blank" class="btn-extra">' + ex["etiqueta"] + '</a>' for ex in extra_links)
+                extra_section = ('<div class="extra-links-row" style="margin-top:10px;padding-top:10px;border-top:1px solid #eee;width:100%">' + extras_html + '</div>') if extras_html else ''
+                card_html = (
+                    '<div class="edicion-card">'
+                    '<div class="edicion-card-left">'
+                    '<div class="edicion-numero">0' + str(num_real) + '</div>'
+                    '<div>'
+                    '<div class="edicion-info-nombre">' + ed['nombre'] + ' ' + latest_badge + '</div>'
+                    '<div class="edicion-info-fecha">Publicado en ' + ed['fecha'] + '</div>'
+                    '</div></div>'
+                    '<div>' + botones_html + '</div>'
+                    + extra_section +
+                    '</div>'
+                )
+                st.markdown(card_html, unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────────────────────
-# OPERADORAS
-# ─────────────────────────────────────────────────────────────
+# =============================================================
+# 4. OPERADORAS
+# =============================================================
 def mostrar_operadoras():
+    mostrar_cabecera("Cuadro de Mando · Operadoras")
+
+    _margen_izq, area, _margen_der = st.columns([0.08, 1, 0.08])
+    with area:
+        col_v, col_c, _ = st.columns([1, 1, 6])
+        with col_v:
+            if st.button("← Portal", key="portal_op"):
+                st.session_state.seccion = "selector"
+                st.rerun()
+        with col_c:
+            if st.button("Cerrar sesión", key="cerrar_op"):
+                st.session_state.autenticado = False
+                st.session_state.seccion = "selector"
+                st.rerun()
+
     st.markdown(f"""
     <div class="tarjeta-op">
-        <div style="text-align:center;margin-bottom:16px;"><img src="data:image/jpeg;base64,{LOGO_B64}" width="300" /></div>
+        <div class="logo-container"><img src="data:image/jpeg;base64,{LOGO_B64}" width="320" /></div>
         <hr class="separador-op"/>
         <p class="titulo-op">Cuadro de Mando · Operadoras</p>
         <p class="subtitulo-op">Principales Magnitudes</p>
@@ -380,22 +434,11 @@ def mostrar_operadoras():
         <p class="pie-op">S.G. de Análisis del Mercado y Evolución Tecnológica</p>
     </div>
     """, unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([1, 2, 1])
-    with c2:
-        if st.button("Cerrar sesión", use_container_width=True, key="cerrar_op"):
-            st.session_state.autenticado = False
-            st.session_state.seccion = "selector"
-            st.rerun()
-    c4, _ = st.columns([1, 4])
-    with c4:
-        if st.button("← Portal", key="portal_op"):
-            st.session_state.seccion = "selector"
-            st.rerun()
 
 
-# ─────────────────────────────────────────────────────────────
+# =============================================================
 # ENRUTADOR
-# ─────────────────────────────────────────────────────────────
+# =============================================================
 if st.session_state.seccion == "selector":
     mostrar_selector()
 elif st.session_state.seccion == "mono":

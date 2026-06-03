@@ -40,10 +40,7 @@ monograficos:
       - nombre: "2ª Edición"
         fecha: "2025"
         sharepoint_url: "https://colaboraage.sharepoint.com/:p:/s/SGAMET-Teams/IQDG4sV4zjycS6CXs2P-G9EeAQMcsCq3BHdsKa94zqPBOkM?e=oe9OB7"
-        extra_links:
-          - etiqueta: "📊 Dashboard interactivo · TowerCos"
-            url: "https://towercos-analisis-datos.netlify.app/"
-
+        
   - titulo: "Fibercos"
     icono: "📶"
     color: "#4a1a6e"
@@ -76,7 +73,7 @@ monograficos:
     color: "#2c3e6e"
     descripcion: "Computación en el borde de la red: arquitectura, casos de uso en telecomunicaciones, despliegue de infraestructura y evolución del mercado en España y Europa."
     ediciones:
-      - nombre: "1ª Edición"
+      - nombre: "En progreso - 1ª Edición"
         fecha: "2026"
         sharepoint_url: "" 
 
